@@ -14,3 +14,5 @@ You can simply install them through
 Usage:
 "python RunProgram.py"
 You should now see a password window. The password is "Admin". It's case-sensitive.
+
+All actual code/functions is handled in "RunProgram.py". All other .py are just QT .UI files converted into .py files.
