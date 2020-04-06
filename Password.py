@@ -1,0 +1,40 @@
+from PyQt5 import QtCore, QtGui, QtWidgets
+from PyQt5.QtWidgets import QMessageBox
+import icons
+class Ui_PasswordForm(object):
+    def setupUi(self, PasswordForm):
+        PasswordForm.setObjectName("PasswordForm")
+        PasswordForm.resize(328, 81)
+        icon = QtGui.QIcon()
+        icon.addPixmap(QtGui.QPixmap(":/icons/password.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        PasswordForm.setWindowIcon(icon)
+        self.PasswordInputField = QtWidgets.QLineEdit(PasswordForm)
+        self.PasswordInputField.setGeometry(QtCore.QRect(30, 50, 261, 20))
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.PasswordInputField.sizePolicy().hasHeightForWidth())
+        self.PasswordInputField.setSizePolicy(sizePolicy)
+        self.PasswordInputField.setEchoMode(QtWidgets.QLineEdit.Password)
+        self.PasswordInputField.setPlaceholderText("")
+        self.PasswordInputField.setObjectName("PasswordInputField")
+        self.label = QtWidgets.QLabel(PasswordForm)
+        self.label.setGeometry(QtCore.QRect(30, 20, 201, 16))
+        font = QtGui.QFont()
+        font.setFamily("Times New Roman")
+        font.setPointSize(14)
+        font.setBold(False)
+        font.setItalic(False)
+        font.setWeight(50)
+        self.label.setFont(font)
+        self.label.setObjectName("label")
+        self.EnterPasswordButton = QtWidgets.QPushButton(PasswordForm)
+        self.EnterPasswordButton.setGeometry(QtCore.QRect(220, 20, 71, 23))
+        self.EnterPasswordButton.setObjectName("EnterPasswordButton")
+        self.retranslateUi(PasswordForm)
+        QtCore.QMetaObject.connectSlotsByName(PasswordForm)
+    def retranslateUi(self, PasswordForm):
+        _translate = QtCore.QCoreApplication.translate
+        PasswordForm.setWindowTitle(_translate("PasswordForm", "Admin Password Required"))
+        self.label.setText(_translate("PasswordForm", "Enter Admin Password"))
+        self.EnterPasswordButton.setText(_translate("PasswordForm", "Enter"))
