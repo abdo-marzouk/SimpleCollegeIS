@@ -5,6 +5,8 @@ class Ui_PasswordForm(object):
     def setupUi(self, PasswordForm):
         PasswordForm.setObjectName("PasswordForm")
         PasswordForm.resize(328, 81)
+        PasswordForm.setMinimumSize(QtCore.QSize(328, 81))
+        PasswordForm.setMaximumSize(QtCore.QSize(328, 81))
         icon = QtGui.QIcon()
         icon.addPixmap(QtGui.QPixmap(":/icons/password.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         PasswordForm.setWindowIcon(icon)

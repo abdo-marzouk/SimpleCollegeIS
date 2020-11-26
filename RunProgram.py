@@ -7,7 +7,6 @@ from Password import *
 from EditStudent import *
 from SearchStudent import *
 from PyQt5.QtWidgets import QMessageBox, QTableWidgetItem
-import sqlite3
 from peewee import *
 db = SqliteDatabase('PeeWeeCollegeIS.db', pragmas={
     'journal_mode' : 'wal',
@@ -40,25 +39,45 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainProgram):
         QtWidgets.QMainWindow.__init__(self)
         Ui_MainProgram.__init__(self)
         self.setupUi(self)
+        self.StudentDetailsTable.setColumnWidth(0,35)
+        self.StudentDetailsTable.setColumnWidth(2,65)
+        self.StudentDetailsTable.setColumnWidth(4,35)
+        self.StudentDetailsTable.setColumnWidth(5,90)
+        self.StudentGradesTable.setColumnWidth(0,35)
+        self.StudentGradesTable.setColumnWidth(2,70)
+        self.StudentGradesTable.setColumnWidth(3,70)
+        self.StudentGradesTable.setColumnWidth(4,70)
+        self.StudentGradesTable.setColumnWidth(5,70)
+        self.StudentGradesTable.setColumnWidth(6,70)
+        self.StudentGradesTable.setColumnWidth(7,70)
+        self.StudentGradesTable.setColumnWidth(8,70)
         def LoadData():
-            self.connection = sqlite3.connect("PeeWeeCollegeIS.db")
-            query = "SELECT * FROM StudentDetails"
-            result = self.connection.execute(query)
             self.StudentDetailsTable.setRowCount(0)
-            for row_number, row_data in enumerate(result):
-                self.StudentDetailsTable.insertRow(row_number)
-                for column_number, data in enumerate(row_data):
-                    self.StudentDetailsTable.setItem(
-                        row_number, column_number, QTableWidgetItem(str(data)))
-            query2 = "SELECT * FROM StudentGrades"
-            result2 = self.connection.execute(query2)
             self.StudentGradesTable.setRowCount(0)
-            for row_number2, row_data2 in enumerate(result2):
-                self.StudentGradesTable.insertRow(row_number2)
-                for column_number2, data2 in enumerate(row_data2):
-                    self.StudentGradesTable.setItem(
-                        row_number2, column_number2, QTableWidgetItem(str(data2)))
-            self.connection.close()
+            query1 = StudentDetails.select()
+            for ID, Student in enumerate(query1):
+                self.StudentDetailsTable.insertRow(ID)
+                self.StudentDetailsTable.setItem(ID , 0 , QTableWidgetItem(str(Student.id)))
+                self.StudentDetailsTable.setItem(ID , 1 , QTableWidgetItem(str(Student.StudentName)))
+                self.StudentDetailsTable.setItem(ID , 2 , QTableWidgetItem(str(Student.Gender)))
+                self.StudentDetailsTable.setItem(ID , 3 , QTableWidgetItem(str(Student.Department)))
+                self.StudentDetailsTable.setItem(ID , 4 , QTableWidgetItem(str(Student.Year)))
+                self.StudentDetailsTable.setItem(ID , 5 , QTableWidgetItem(str(Student.Phone)))
+                self.StudentDetailsTable.setItem(ID , 6 , QTableWidgetItem(str(Student.Address)))
+                self.StudentDetailsTable.setItem(ID , 7 , QTableWidgetItem(str(Student.GPA)))
+            query2 = StudentGrades.select()
+            for ID, Student in enumerate(query2):
+                self.StudentGradesTable.insertRow(ID)
+                self.StudentGradesTable.setItem(ID , 0 , QTableWidgetItem(str(Student.id)))
+                self.StudentGradesTable.setItem(ID , 1 , QTableWidgetItem(str(Student.StudentName)))
+                self.StudentGradesTable.setItem(ID , 2 , QTableWidgetItem(str(Student.MathGrade)))
+                self.StudentGradesTable.setItem(ID , 3 , QTableWidgetItem(str(Student.DSGrade)))
+                self.StudentGradesTable.setItem(ID , 4 , QTableWidgetItem(str(Student.InformationSystemsGrade)))
+                self.StudentGradesTable.setItem(ID , 5 , QTableWidgetItem(str(Student.OOPGrade)))
+                self.StudentGradesTable.setItem(ID , 6 , QTableWidgetItem(str(Student.PMGrade)))
+                self.StudentGradesTable.setItem(ID , 7 , QTableWidgetItem(str(Student.BAGrade)))
+                self.StudentGradesTable.setItem(ID , 8 , QTableWidgetItem(str(Student.TWGrade)))
+                self.StudentGradesTable.setItem(ID , 9 , QTableWidgetItem(str(Student.GPA)))
         LoadData()
         self.AddStudentAction.triggered.connect(Add.show)
         self.SearchStudentAction.triggered.connect(Search.show)
@@ -93,6 +112,7 @@ class AddWindow(QtWidgets.QWidget, Ui_AddStudentForm):
         self.PMInput.setValue(0)
         self.BAInput.setValue(0)
         self.TWInput.setValue(0)
+        self.AddStudentTabSwitcher.setCurrentIndex(0)
     def AddStudent(self):
         StudentNameInput = self.NameInput.text()
         GenderInput = self.GenderComboBox.itemText(self.GenderComboBox.currentIndex())
@@ -134,7 +154,7 @@ class AddWindow(QtWidgets.QWidget, Ui_AddStudentForm):
                     GPA=GPAInput)
                 NewStudentGrades.save()
                 QMessageBox.information(
-                    QMessageBox(), 'Successful', 'Student is added successfully to the database.')
+                    QMessageBox(), 'Successful', 'Student is added successfully to the database. Please click the refresh button')
                 self.close()
                 self.ClearValues()
             except Exception:
@@ -145,7 +165,7 @@ class SearchResultsWindow(QtWidgets.QWidget, Ui_SearchStudentResults):
         QtWidgets.QWidget.__init__(self)
         Ui_SearchStudentResults.__init__(self)
         self.setupUi(self)
-        def SearchStudent():
+        def SearchStudentForEdit():
             try:
                 SearchInputValue = self.SearchInputForSearch.text()
                 SearchResultDetails = StudentDetails.select().where(StudentDetails.id == SearchInputValue).get()
@@ -167,25 +187,154 @@ class SearchResultsWindow(QtWidgets.QWidget, Ui_SearchStudentResults):
             except Exception:
                 QMessageBox.warning(QMessageBox(), 'Error',
                                     'Could not find student.')
-        self.SearchButtonForSearch.clicked.connect(SearchStudent)
+        self.SearchButtonForSearch.clicked.connect(SearchStudentForEdit)
         def SwitchTab1():
             self.SearchStudentTabSwitcher.setCurrentIndex(0)
         def SwitchTab2():
-            self.SearchStudentTabSwitcher.setCurrentIndex(1)        
+            self.SearchStudentTabSwitcher.setCurrentIndex(1)      
         self.NextButton.clicked.connect(SwitchTab2)
         self.BackButton.clicked.connect(SwitchTab1)
         self.ExitButton1.clicked.connect(self.close)
+        self.ExitButton1.clicked.connect(self.ClearValues)
         self.ExitButton2.clicked.connect(self.close)
+        self.ExitButton2.clicked.connect(self.ClearValues)
+
+    def ClearValues(self):
+        self.SearchInputForSearch.clear()
+        self.SearchStudentTabSwitcher.setCurrentIndex(0)
+        self.NameOutput.setText("")
+        self.GenderOutput.setText("")
+        self.DepartmentOutput.setText("")
+        self.YearOutput.setText("")
+        self.PhoneOutput.setText("")
+        self.AddressOutput.setText("")
+        self.TotalGradeOutput.setText("")
+        self.MathGradeOutput.setText("")
+        self.DSGradeOutput.setText("")
+        self.ISGradeOutput.setText("")
+        self.OOPGradeOutput.setText("")
+        self.PMGradeOutput.setText("")
+        self.BAGradeOutput.setText("")
+        self.TWGradeOutput.setText("")  
 class DeleteWindow(QtWidgets.QWidget, Ui_DeleteForm):
     def __init__(self, *args, **kwargs):
         QtWidgets.QWidget.__init__(self)
         Ui_DeleteForm.__init__(self)
         self.setupUi(self)
+        def DeleteStudent():
+            try:
+                StudentDetailsToDelete=StudentDetails[int(self.DeleteInput.text())]
+                StudentGradesToDelete=StudentGrades[int(self.DeleteInput.text())]
+                StudentDetailsToDelete.delete_by_id(int(self.DeleteInput.text()))
+                StudentGradesToDelete.delete_by_id(int(self.DeleteInput.text()))
+                QMessageBox.information(
+                    QMessageBox(), 'Successful', 'Student is successfuly deleted from the database. Please click the refresh button')
+                self.DeleteInput.clear()
+                self.close()
+            except Exception:
+                QMessageBox.warning(QMessageBox(), 'Error',
+                                        'Could not find student.')
+        self.DeleteButton.clicked.connect(DeleteStudent)
+
 class EditStudentWindow(QtWidgets.QWidget, Ui_EditStudentForm):
     def __init__(self, *args, **kwargs):
         QtWidgets.QWidget.__init__(self)
         Ui_EditStudentForm.__init__(self)
         self.setupUi(self)
+        def SearchStudentForEdit():
+            try:
+                SearchInputValueForEdit = self.SearchInputForEdit.text()
+                SearchResultDetailsForEdit = StudentDetails.get(StudentDetails.id == SearchInputValueForEdit)
+                SearchResultGradesForEdit = StudentGrades.get(StudentGrades.id == SearchInputValueForEdit)
+                self.NameInput.setText(SearchResultDetailsForEdit.StudentName)
+                self.GenderComboBox.setCurrentText(SearchResultDetailsForEdit.Gender)
+                self.DepartmentComboBox.setCurrentText(SearchResultDetailsForEdit.Department)
+                self.YearComboBox.setCurrentText(f'{SearchResultDetailsForEdit.Year}')
+                self.PhoneInput.setText(f'{SearchResultDetailsForEdit.Phone}')
+                self.AddressInput.setText(SearchResultDetailsForEdit.Address)
+                self.MathInput.setValue(SearchResultGradesForEdit.MathGrade)
+                self.DSInput.setValue(SearchResultGradesForEdit.DSGrade)
+                self.ISInput.setValue(SearchResultGradesForEdit.InformationSystemsGrade)
+                self.OOPInput.setValue(SearchResultGradesForEdit.OOPGrade)
+                self.PMInput.setValue(SearchResultGradesForEdit.PMGrade)
+                self.BAInput.setValue(SearchResultGradesForEdit.BAGrade)
+                self.TWInput.setValue(SearchResultGradesForEdit.TWGrade)
+            except Exception:
+                QMessageBox.warning(QMessageBox(), 'Error',
+                                    'Could not find student or wrong input.')
+        def EditStudent():
+            StudentNameEdit = self.NameInput.text()
+            GenderEdit = self.GenderComboBox.itemText(self.GenderComboBox.currentIndex())
+            DepartmentEdit = self.DepartmentComboBox.itemText(self.DepartmentComboBox.currentIndex())
+            YearEdit = self.YearComboBox.itemText(self.YearComboBox.currentIndex())
+            PhoneEdit = self.PhoneInput.text()
+            AddressEdit = self.AddressInput.text()
+            MathGradeEdit = self.MathInput.value()
+            DSGradeEdit = self.DSInput.value()
+            ISGradeEdit = self.ISInput.value()
+            OOPGradeEdit = self.OOPInput.value()
+            PMGradeEdit = self.PMInput.value()
+            BAGradeEdit = self.BAInput.value()
+            TWGradeEdit = self.TWInput.value()
+            GPAEdit = ((MathGradeEdit+DSGradeEdit+ISGradeEdit+OOPGradeEdit+PMGradeEdit+BAGradeEdit+TWGradeEdit)/700)*100
+            if StudentNameEdit == "" or StudentNameEdit.isdigit()==True or PhoneEdit.isalpha()==True or MathGradeEdit == 0 or DSGradeEdit == 0 or ISGradeEdit == 0 or OOPGradeEdit ==0 or PMGradeEdit == 0 or BAGradeEdit == 0 or TWGradeEdit ==0:
+                QMessageBox.warning(QMessageBox(), 'Error',
+                    'Invalid Inputs.')
+            else:                 
+                try:
+                    student_Details=StudentDetails[int(self.SearchInputForEdit.text())]
+                    student_Details.StudentName=StudentNameEdit
+                    student_Details.Gender=GenderEdit
+                    student_Details.Department=DepartmentEdit
+                    student_Details.Year=YearEdit
+                    student_Details.Phone=PhoneEdit
+                    student_Details.Address=AddressEdit
+                    student_Details.GPA=GPAEdit
+                    student_Details.save()
+                    student_Grades=StudentGrades[int(self.SearchInputForEdit.text())]
+                    student_Grades.StudentName=StudentNameEdit
+                    student_Grades.MathGrade=MathGradeEdit
+                    student_Grades.DSGrade=DSGradeEdit
+                    student_Grades.InformationSystemsGrade=ISGradeEdit
+                    student_Grades.OOPGrade=OOPGradeEdit
+                    student_Grades.PMGrade=PMGradeEdit
+                    student_Grades.BAGrade=BAGradeEdit
+                    student_Grades.TWGrade=TWGradeEdit
+                    student_Grades.GPA=GPAEdit
+                    student_Grades.save()
+                    QMessageBox.information(
+                        QMessageBox(), 'Successful', 'Student details have been updated. Please click the refresh button')
+                    self.close()
+                    self.ClearValues()
+                except Exception:
+                    QMessageBox.warning(QMessageBox(), 'Error',
+                                        'Could not Edit student details.')
+        self.AddStudentButton.clicked.connect(EditStudent)
+        self.SearchButtonForEdit.clicked.connect(SearchStudentForEdit)
+        def SwitchTab1():
+            self.EditStudentTabSwitcher.setCurrentIndex(0)
+        def SwitchTab2():
+            self.EditStudentTabSwitcher.setCurrentIndex(1)        
+        self.NextButton.clicked.connect(SwitchTab2)
+        self.BackButton.clicked.connect(SwitchTab1)
+        self.CancelButton2.clicked.connect(self.close)
+        self.CancelButton.clicked.connect(self.close)
+    def ClearValues(self):
+        self.EditStudentTabSwitcher.setCurrentIndex(0)
+        self.SearchInputForEdit.clear()
+        self.NameInput.clear()
+        self.GenderComboBox.setCurrentIndex(0)
+        self.DepartmentComboBox.setCurrentIndex(0)
+        self.YearComboBox.setCurrentIndex(0)
+        self.PhoneInput.clear()
+        self.AddressInput.clear()
+        self.MathInput.setValue(0)
+        self.DSInput.setValue(0)
+        self.ISInput.setValue(0)
+        self.OOPInput.setValue(0)
+        self.PMInput.setValue(0)
+        self.BAInput.setValue(0)
+        self.TWInput.setValue(0)
 class LoginWindow(QtWidgets.QWidget, Ui_PasswordForm):
     def __init__(self, *args, **kwargs):
         QtWidgets.QWidget.__init__(self)

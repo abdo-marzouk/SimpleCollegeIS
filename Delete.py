@@ -5,6 +5,8 @@ class Ui_DeleteForm(object):
     def setupUi(self, DeleteForm):
         DeleteForm.setObjectName("DeleteForm")
         DeleteForm.resize(260, 70)
+        DeleteForm.setMinimumSize(QtCore.QSize(260, 70))
+        DeleteForm.setMaximumSize(QtCore.QSize(260, 70))
         icon = QtGui.QIcon()
         icon.addPixmap(QtGui.QPixmap(":/icons/delete.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         DeleteForm.setWindowIcon(icon)
@@ -23,9 +25,9 @@ class Ui_DeleteForm(object):
         font.setPointSize(14)
         self.label.setFont(font)
         self.label.setObjectName("label")
-        self.SearchButton = QtWidgets.QPushButton(DeleteForm)
-        self.SearchButton.setGeometry(QtCore.QRect(100, 40, 75, 23))
-        self.SearchButton.setObjectName("SearchButton")
+        self.DeleteButton = QtWidgets.QPushButton(DeleteForm)
+        self.DeleteButton.setGeometry(QtCore.QRect(100, 40, 75, 23))
+        self.DeleteButton.setObjectName("DeleteButton")
 
         self.retranslateUi(DeleteForm)
         QtCore.QMetaObject.connectSlotsByName(DeleteForm)
@@ -34,4 +36,4 @@ class Ui_DeleteForm(object):
         _translate = QtCore.QCoreApplication.translate
         DeleteForm.setWindowTitle(_translate("DeleteForm", "Delete student"))
         self.label.setText(_translate("DeleteForm", "Delete with ID"))
-        self.SearchButton.setText(_translate("DeleteForm", "Delete"))
+        self.DeleteButton.setText(_translate("DeleteForm", "Delete"))

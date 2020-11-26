@@ -1,7 +1,6 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 import icons
 
-
 class Ui_MainProgram(object):
     def setupUi(self, MainProgram):
         MainProgram.setObjectName("MainProgram")
@@ -41,7 +40,10 @@ class Ui_MainProgram(object):
         sizePolicy.setHeightForWidth(self.StudentDetailsTable.sizePolicy().hasHeightForWidth())
         self.StudentDetailsTable.setSizePolicy(sizePolicy)
         self.StudentDetailsTable.setSizeAdjustPolicy(QtWidgets.QAbstractScrollArea.AdjustToContentsOnFirstShow)
+        self.StudentDetailsTable.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
         self.StudentDetailsTable.setAlternatingRowColors(False)
+        self.StudentDetailsTable.setVerticalScrollMode(QtWidgets.QAbstractItemView.ScrollPerPixel)
+        self.StudentDetailsTable.setHorizontalScrollMode(QtWidgets.QAbstractItemView.ScrollPerPixel)
         self.StudentDetailsTable.setObjectName("StudentDetailsTable")
         self.StudentDetailsTable.setColumnCount(8)
         self.StudentDetailsTable.setRowCount(0)
@@ -65,7 +67,8 @@ class Ui_MainProgram(object):
         self.StudentDetailsTable.horizontalHeader().setDefaultSectionSize(150)
         self.StudentDetailsTable.horizontalHeader().setMinimumSectionSize(20)
         self.StudentDetailsTable.horizontalHeader().setSortIndicatorShown(True)
-        self.StudentDetailsTable.horizontalHeader().setStretchLastSection(False)
+        self.StudentDetailsTable.horizontalHeader().setStretchLastSection(True)
+        self.StudentDetailsTable.verticalHeader().setVisible(False)
         self.StudentDetailsTable.verticalHeader().setCascadingSectionResizes(True)
         self.StudentDetailsTable.verticalHeader().setSortIndicatorShown(True)
         self.StudentDetailsTable.verticalHeader().setStretchLastSection(False)
@@ -79,6 +82,9 @@ class Ui_MainProgram(object):
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.StudentGradesTable.sizePolicy().hasHeightForWidth())
         self.StudentGradesTable.setSizePolicy(sizePolicy)
+        self.StudentGradesTable.setVerticalScrollMode(QtWidgets.QAbstractItemView.ScrollPerPixel)
+        self.StudentGradesTable.setHorizontalScrollMode(QtWidgets.QAbstractItemView.ScrollPerPixel)
+        self.StudentGradesTable.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
         self.StudentGradesTable.setObjectName("StudentGradesTable")
         self.StudentGradesTable.setColumnCount(10)
         self.StudentGradesTable.setRowCount(0)
@@ -106,7 +112,8 @@ class Ui_MainProgram(object):
         self.StudentGradesTable.horizontalHeader().setDefaultSectionSize(150)
         self.StudentGradesTable.horizontalHeader().setMinimumSectionSize(20)
         self.StudentGradesTable.horizontalHeader().setSortIndicatorShown(True)
-        self.StudentGradesTable.horizontalHeader().setStretchLastSection(False)
+        self.StudentGradesTable.horizontalHeader().setStretchLastSection(True)
+        self.StudentGradesTable.verticalHeader().setVisible(False)
         self.StudentGradesTable.verticalHeader().setCascadingSectionResizes(True)
         self.StudentGradesTable.verticalHeader().setSortIndicatorShown(True)
         self.StudentGradesTable.verticalHeader().setStretchLastSection(False)

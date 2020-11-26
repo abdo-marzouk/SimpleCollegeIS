@@ -82,8 +82,17 @@
       <property name="sizeAdjustPolicy">
        <enum>QAbstractScrollArea::AdjustToContentsOnFirstShow</enum>
       </property>
+      <property name="editTriggers">
+       <set>QAbstractItemView::NoEditTriggers</set>
+      </property>
       <property name="alternatingRowColors">
        <bool>false</bool>
+      </property>
+      <property name="verticalScrollMode">
+       <enum>QAbstractItemView::ScrollPerPixel</enum>
+      </property>
+      <property name="horizontalScrollMode">
+       <enum>QAbstractItemView::ScrollPerPixel</enum>
       </property>
       <property name="sortingEnabled">
        <bool>true</bool>
@@ -101,6 +110,9 @@
        <bool>true</bool>
       </attribute>
       <attribute name="horizontalHeaderStretchLastSection">
+       <bool>false</bool>
+      </attribute>
+      <attribute name="verticalHeaderVisible">
        <bool>false</bool>
       </attribute>
       <attribute name="verticalHeaderCascadingSectionResizes">
@@ -176,6 +188,9 @@
       <property name="toolTip">
        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;br/&gt;DS = Discrete Maths&lt;/p&gt;&lt;p&gt;IS = Information Systems&lt;/p&gt;&lt;p&gt;OOP = Object-Oriented Programming&lt;/p&gt;&lt;p&gt;PM = Project Management&lt;/p&gt;&lt;p&gt;BA = Buissness Administration&lt;/p&gt;&lt;p&gt;TW = Technical Writing&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
       </property>
+      <property name="editTriggers">
+       <set>QAbstractItemView::NoEditTriggers</set>
+      </property>
       <property name="sortingEnabled">
        <bool>true</bool>
       </property>
@@ -192,6 +207,9 @@
        <bool>true</bool>
       </attribute>
       <attribute name="horizontalHeaderStretchLastSection">
+       <bool>false</bool>
+      </attribute>
+      <attribute name="verticalHeaderVisible">
        <bool>false</bool>
       </attribute>
       <attribute name="verticalHeaderCascadingSectionResizes">

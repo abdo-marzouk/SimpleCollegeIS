@@ -6,6 +6,8 @@ class Ui_AddStudentForm(object):
         AddStudentForm.setObjectName("AddStudentForm")
         AddStudentForm.resize(328, 300)
         icon = QtGui.QIcon()
+        AddStudentForm.setMinimumSize(QtCore.QSize(328, 300))
+        AddStudentForm.setMaximumSize(QtCore.QSize(328, 300))
         icon.addPixmap(QtGui.QPixmap(":/icons/add.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         AddStudentForm.setWindowIcon(icon)
         self.AddStudentTabSwitcher = QtWidgets.QTabWidget(AddStudentForm)

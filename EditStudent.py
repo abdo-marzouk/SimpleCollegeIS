@@ -5,6 +5,8 @@ class Ui_EditStudentForm(object):
     def setupUi(self, EditStudentForm):
         EditStudentForm.setObjectName("EditStudentForm")
         EditStudentForm.resize(300, 328)
+        EditStudentForm.setMinimumSize(QtCore.QSize(300, 328))
+        EditStudentForm.setMaximumSize(QtCore.QSize(300, 328))
         icon = QtGui.QIcon()
         icon.addPixmap(QtGui.QPixmap(":/icons/edit.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         EditStudentForm.setWindowIcon(icon)
@@ -254,7 +256,7 @@ class Ui_EditStudentForm(object):
         self.GenderComboBox.setItemText(0, _translate("EditStudentForm", "Male"))
         self.GenderComboBox.setItemText(1, _translate("EditStudentForm", "Female"))
         self.label_13.setText(_translate("EditStudentForm", "Gender"))
-        self.SearchInputForEdit.setPlaceholderText(_translate("EditStudentForm", "ID or Name"))
+        self.SearchInputForEdit.setPlaceholderText(_translate("EditStudentForm", "ID"))
         self.SearchButtonForEdit.setText(_translate("EditStudentForm", "Search"))
         self.EditStudentTabSwitcher.setTabText(self.EditStudentTabSwitcher.indexOf(self.tab), _translate("EditStudentForm", "Student Details"))
         self.CancelButton.setText(_translate("EditStudentForm", "Cancel"))
